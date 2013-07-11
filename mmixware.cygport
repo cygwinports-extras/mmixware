@@ -1,0 +1,73 @@
+SVN_URI="svn://mmix.cs.hm.edu/mmixware/"
+SVN_BRANCH="trunk"
+inherit svn
+
+NAME="mmixware"
+VERSION=20130425
+RELEASE=1
+CATEGORY="System"
+SUMMARY="MMIX simulators, assembler, and tools"
+DESCRIPTION="MMIX is a computer intended to illustrate machine-level aspects
+of programming. In the books The Art of Computer Programming, it replaces MIX,
+the 1960s-style machine that formerly played such a role.  MMIX was designed
+so that its machine language would be simple, elegant, and easy to learn. At
+the same time it includes all of the complexities needed to achieve high
+performance in practice, so that MMIX could in principle be built and even
+perhaps be competitive with some of the fastest general-purpose computers in
+the marketplace."
+
+HOMEPAGE="http://mmix.cs.hm.edu/"
+SRC_URI+="
+	http://mmix.cs.hm.edu/tools/mmoimg/mmoimg.ch
+	http://www.malgil.com/mmix/graphics/mmixx.tar.gz
+"
+
+CYGPORT_USE_UNSTABLE_API=1
+src_unpack_hook() {
+	ln -sf $PWD/../mmixx/* .
+}
+
+src_compile() {
+	lndirs
+	cd ${B}
+
+	# make mmixx first
+	cygmake -j1 -f Makefile.x11 all CFLAGS="${CFLAGS}"
+	cygmake clean
+	# we don't want this to be used with mmix(1)
+	rm -f mmix-sim.ch
+
+	# prepare mmoimg sources
+	ctangle mmotype.w mmoimg.ch mmoimg.c
+	cweave mmotype.w mmoimg.ch mmoimg.tex
+
+	cygmake -j1 all mmoimg CFLAGS="${CFLAGS}"
+
+	for f in mm*.w
+	do
+		cygmake -j1 ${f%.w}.pdf PDFTEX=pdftex
+	done
+	pdftex mmoimg.tex
+}
+
+src_test() {
+	cd ${B}
+
+	./mmixal -x -b 250 -l copy.mml copy.mms
+	./mmix copy copy.mms > copy.out
+	diff -u copy.mms copy.out
+
+	./mmixal -x -b 250 -l hello.mml hello.mms
+	./mmix -Dhello.mmb hello.mmo
+	echo -e '10000\nq' | ./mmmix plain.mmconfig hello.mmb
+
+	./mmixal -x -b 250 -l silly.mml silly.mms
+	./mmix -Dsilly.mmb silly.mmo
+	echo -e '10000\nq' | ./mmmix plain.mmconfig silly.mmb
+}
+
+src_install() {
+	cd ${B}
+	dobin mmix.exe mmixal.exe mmmix.exe mmotype.exe mmoimg.exe mmixx.exe
+	dodoc *.pdf
+}
