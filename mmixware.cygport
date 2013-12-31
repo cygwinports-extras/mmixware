@@ -3,7 +3,7 @@ SVN_BRANCH="trunk"
 inherit svn
 
 NAME="mmixware"
-VERSION=20130425
+VERSION=20131017
 RELEASE=1
 CATEGORY="System"
 SUMMARY="MMIX simulators, assembler, and tools"
