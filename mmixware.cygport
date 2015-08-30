@@ -1,10 +1,6 @@
-SVN_URI="svn://mmix.cs.hm.edu/mmixware/"
-SVN_BRANCH="trunk"
-inherit svn
-
 NAME="mmixware"
 VERSION=20131017
-RELEASE=1
+RELEASE=2
 CATEGORY="System"
 SUMMARY="MMIX simulators, assembler, and tools"
 DESCRIPTION="MMIX is a computer intended to illustrate machine-level aspects
@@ -15,27 +11,23 @@ the same time it includes all of the complexities needed to achieve high
 performance in practice, so that MMIX could in principle be built and even
 perhaps be competitive with some of the fastest general-purpose computers in
 the marketplace."
-
 HOMEPAGE="http://mmix.cs.hm.edu/"
-SRC_URI+="
+SRC_URI="
+	http://mmix.cs.hm.edu/src/mmix-${VERSION}.tgz
+	https://raw.githubusercontent.com/ascherer/mmix/local/abstime.ch
+	https://raw.githubusercontent.com/ascherer/mmix/local/mmix-arith.ch
+	https://raw.githubusercontent.com/ascherer/mmix/local/mmix-config.ch
+	https://raw.githubusercontent.com/ascherer/mmix/local/mmix-io.ch
+	https://raw.githubusercontent.com/ascherer/mmix/local/mmix-pipe.ch
+	https://raw.githubusercontent.com/ascherer/mmix/local/mmix-sim.ch
+	https://raw.githubusercontent.com/ascherer/mmix/local/mmixal.ch
 	http://mmix.cs.hm.edu/tools/mmoimg/mmoimg.ch
-	http://www.malgil.com/mmix/graphics/mmixx.tar.gz
 "
-
-CYGPORT_USE_UNSTABLE_API=1
-src_unpack_hook() {
-	ln -sf $PWD/../mmixx/* .
-}
+SRC_DIR="."
 
 src_compile() {
 	lndirs
 	cd ${B}
-
-	# make mmixx first
-	cygmake -j1 -f Makefile.x11 all CFLAGS="${CFLAGS}"
-	cygmake clean
-	# we don't want this to be used with mmix(1)
-	rm -f mmix-sim.ch
 
 	# prepare mmoimg sources
 	ctangle mmotype.w mmoimg.ch mmoimg.c
@@ -68,6 +60,6 @@ src_test() {
 
 src_install() {
 	cd ${B}
-	dobin mmix.exe mmixal.exe mmmix.exe mmotype.exe mmoimg.exe mmixx.exe
+	dobin mmix.exe mmixal.exe mmmix.exe mmotype.exe mmoimg.exe
 	dodoc *.pdf
 }
