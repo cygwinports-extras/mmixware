@@ -1,6 +1,6 @@
 NAME="mmixware"
-VERSION=20131017
-RELEASE=2
+VERSION=20160804
+RELEASE=1
 CATEGORY="System"
 SUMMARY="MMIX simulators, assembler, and tools"
 DESCRIPTION="MMIX is a computer intended to illustrate machine-level aspects
