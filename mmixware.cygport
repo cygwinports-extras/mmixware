@@ -14,13 +14,15 @@ the marketplace."
 HOMEPAGE="http://mmix.cs.hm.edu/"
 SRC_URI="
 	http://mmix.cs.hm.edu/src/mmix-${VERSION}.tgz
-	https://raw.githubusercontent.com/ascherer/mmix/local/abstime.ch
 	https://raw.githubusercontent.com/ascherer/mmix/local/mmix-arith.ch
 	https://raw.githubusercontent.com/ascherer/mmix/local/mmix-config.ch
 	https://raw.githubusercontent.com/ascherer/mmix/local/mmix-io.ch
+	https://raw.githubusercontent.com/ascherer/mmix/local/mmix-mem.ch
 	https://raw.githubusercontent.com/ascherer/mmix/local/mmix-pipe.ch
 	https://raw.githubusercontent.com/ascherer/mmix/local/mmix-sim.ch
 	https://raw.githubusercontent.com/ascherer/mmix/local/mmixal.ch
+	https://raw.githubusercontent.com/ascherer/mmix/local/mmmix.ch
+	https://raw.githubusercontent.com/ascherer/mmix/local/mmotype.ch
 	http://mmix.cs.hm.edu/tools/mmoimg/mmoimg.ch
 "
 SRC_DIR="."
