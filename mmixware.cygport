@@ -26,6 +26,7 @@ SRC_URI="
 	http://mmix.cs.hm.edu/tools/mmoimg/mmoimg.ch
 "
 SRC_DIR="."
+PATCH_URI="20160804-abstime.patch"
 
 src_compile() {
 	lndirs

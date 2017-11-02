@@ -1,0 +1,80 @@
+This requires Makefile changes which are not yet upstream.
+
+--- origsrc/mmix-pipe.ch	2017-11-01 19:35:00.665231700 -0500
++++ src/mmix-pipe.ch	2017-11-01 19:39:24.975393900 -0500
+@@ -4,11 +4,6 @@
+ @z
+ 
+ @x
+-#include "abstime.h"
+-@y
+-@z
+-
+-@x
+   @<Local variables@>;
+ @y
+   @<Local variables@>; (void)breakpoint_hit;
+@@ -37,24 +32,6 @@ typedef uint32_t tetra;
+ @z
+ 
+ @x
+-(The macro \.{ABSTIME} is defined externally in the file \.{abstime.h},
+-which should have just been created by {\mc ABSTIME}\kern.05em;
+-{\mc ABSTIME} is
+-a trivial program that computes the value of the standard library function
+-|time(NULL)|. We assume that this number, which is the number of seconds in
+-@y
+-(The macro \.{ABSTIME} will be set to a numeric value at compilation-time in
+-\.{Makefile}. We assume that this number, which is the number of seconds in
+-@z
+-
+-@x
+-@d VERSION 1 /* version of the \MMIX\ architecture that we support */
+-@y
+-@d ABSTIME /* number of seconds in “the epoch” */
+-@d VERSION 1 /* version of the \MMIX\ architecture that we support */
+-@z
+-
+-@x
+     if (a.l<32) printf(special_name[a.l]);
+ @y
+     if (a.l<32) printf("%s",special_name[a.l]);
+--- origsrc/mmix-sim.ch	2017-11-01 19:35:00.688737900 -0500
++++ src/mmix-sim.ch	2017-11-01 19:35:01.008286500 -0500
+@@ -77,24 +77,6 @@ register int G,L,O=0; /* accessible copi
+ @z
+ 
+ @x
+-(The macro \.{ABSTIME} is defined externally in the file \.{abstime.h},
+-which should have just been created by {\mc ABSTIME}\kern.05em;
+-{\mc ABSTIME} is
+-a trivial program that computes the value of the standard library function
+-|time(NULL)|. We assume that this number, which is the number of seconds in
+-@y
+-(The macro \.{ABSTIME} will be set to a numeric value at compilation-time in
+-\.{Makefile}. We assume that this number, which is the number of seconds in
+-@z
+-
+-@x
+-@d VERSION 1 /* version of the \MMIX\ architecture that we support */
+-@y
+-@d ABSTIME /* number of seconds in “the epoch” */
+-@d VERSION 1 /* version of the \MMIX\ architecture that we support */
+-@z
+-
+-@x
+  round_mode=(y.l? y.l: cur_round);@+goto store_fx;
+ @y
+  round_mode=(y.l? (int)y.l: cur_round);@+goto store_fx;
+@@ -135,11 +117,6 @@ case 'l': printf("%s",lhs);@+break;
+ @z
+ 
+ @x
+-#include "abstime.h"
+-@y
+-@z
+-
+-@x
+   else if (sscanf(arg+1,"%d",&trace_threshold)!=1) trace_threshold=0;
+ @y
+   else if (sscanf(arg+1,"%d",(int *)&trace_threshold)!=1) trace_threshold=0;
